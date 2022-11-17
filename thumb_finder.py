@@ -42,10 +42,10 @@ def find_push():
     end = get_end(start)
 
     for ea in range(start, end, 2):
-        if idaapi.get_wide_byte(ea+1) in OP_PUSH:
+        if idaapi.get_byte(ea+1) in OP_PUSH:
             ea_list += [ea]
 
-        elif idaapi.get_wide_word(ea) in OP_PUSH16:
+        elif idaapi.get_word(ea) in OP_PUSH16:
             ea_list += [ea]
 
     return ea_list
@@ -56,13 +56,13 @@ def check_epilogue(start, end):
     OP_POP_PC16 = 0xE8BD
 
     for ea in range(start, end, 2):
-        if idaapi.get_wide_word(ea) == OP_BXLR:
+        if idaapi.get_word(ea) == OP_BXLR:
             return True
 
-        elif idaapi.get_wide_word(ea) == OP_POP_PC16:
+        elif idaapi.get_word(ea) == OP_POP_PC16:
             return True
 
-        elif idaapi.get_wide_byte(ea+1) == OP_POP_PC:
+        elif idaapi.get_byte(ea+1) == OP_POP_PC:
             return True
 
     return False
